@@ -1,6 +1,19 @@
 @WatchTracker.Api_HostAddress = http://localhost:5126
 
-GET {{WatchTracker.Api_HostAddress}}/weatherforecast/
-Accept: application/json
+### Register new user
+POST {{WatchTracker.Api_HostAddress}}/api/auth/register/
+Content-Type: application/json
+{
+    "email": "example@gmail.com",
+    "password": "Example_password_1"
+}
+
+### Login user
+POST {{WatchTracker.Api_HostAddress}}/api/auth/login/
+Content-Type: application/json
+{
+    "email": "example@gmail.com",
+    "password": "Example_password_1"
+}
 
 ###
