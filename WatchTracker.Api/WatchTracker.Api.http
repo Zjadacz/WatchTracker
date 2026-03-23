@@ -1,4 +1,4 @@
-@WatchTracker.Api_HostAddress = http://localhost:5126
+@WatchTracker.Api_HostAddress = https://localhost:7165
 
 ### Register new user
 POST {{WatchTracker.Api_HostAddress}}/api/auth/register/
@@ -11,9 +11,23 @@ Content-Type: application/json
 ### Login user
 POST {{WatchTracker.Api_HostAddress}}/api/auth/login/
 Content-Type: application/json
+
 {
     "email": "example@gmail.com",
     "password": "Example_password_1"
 }
 
-###
+### Get all watched movies for currently logged user
+GET {{WatchTracker.Api_HostAddress}}/api/watched/all/
+Authorization: Bearer PASTE_HERE_FROM_LOGIN
+
+### Add new watched movie for currently logged user
+POST {{WatchTracker.Api_HostAddress}}/api/watched/add/
+Authorization: Bearer PASTE_HERE_FROM_LOGIN
+Content-Type: application/json
+{
+    "title": "Metropolis",
+    "description": "Ok, for 100 years old movie.",
+    "datewatched": "2026-03-21",
+    "rating": 8.5
+}
