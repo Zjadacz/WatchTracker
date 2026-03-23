@@ -416,6 +416,3 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
-/WatchTracker.Api/watchtracker.db
-/WatchTracker.Api/watchtracker.db-shm
-/WatchTracker.Api/watchtracker.db-wal
