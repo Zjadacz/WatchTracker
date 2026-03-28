@@ -13,11 +13,13 @@ namespace WatchTracker.Api.Controllers
     public class AuthController : ControllerBase
     {
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly IWebHostEnvironment _env;
         private readonly IConfiguration _config;
 
-        public AuthController(UserManager<IdentityUser> userManager, IConfiguration config)
+        public AuthController(UserManager<IdentityUser> userManager, IWebHostEnvironment env, IConfiguration config)
         {
             _userManager = userManager;
+            _env = env;
             _config = config;
         }
 
@@ -26,8 +28,65 @@ namespace WatchTracker.Api.Controllers
         {
             var user = new IdentityUser { UserName = model.Email, Email = model.Email };
             var result = await _userManager.CreateAsync(user, model.Password);
-            if (!result.Succeeded) return BadRequest(result.Errors);
-            return Ok("User registered");
+
+            if (!result.Succeeded)
+                return BadRequest(result.Errors);
+
+            // Email confirmation token
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var confirmationLink = Url.Action(
+                nameof(ConfirmEmail),
+                "Auth",
+                new { userId = user.Id, token = token },
+                Request.Scheme);
+
+            return SendConfirmationEmail(confirmationLink);
+        }
+
+        /// <summary>
+        /// Resend email without adding user to database 
+        /// </summary>
+        [HttpGet("resend")]
+        public async Task<IActionResult> ResendEmail(string email)
+        {
+            // Email confirmation token
+            var user = await _userManager.FindByEmailAsync(email);
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var confirmationLink = Url.Action(
+                nameof(ConfirmEmail),
+                "Auth",
+                new { userId = user.Id, token = token },
+                Request.Scheme);
+
+            return SendConfirmationEmail(confirmationLink);
+        }
+
+        private IActionResult SendConfirmationEmail(string? confirmationLink)
+        {
+            if (_env.IsDevelopment())
+            {
+                return Ok(new { message = "Confirmation link", confirmationLink });
+            }
+            else
+            {
+                // TODO: send actual email using SMTP
+                return Ok();
+            }
+        }
+
+        [HttpGet("confirm-email")]
+        public async Task<IActionResult> ConfirmEmail(string userId, string token)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+                return BadRequest("Invalid user");
+
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+
+            if (!result.Succeeded)
+                return BadRequest("Invalid token");
+
+            return Ok("Email confirmed");
         }
 
         [HttpPost("login")]
@@ -36,6 +95,11 @@ namespace WatchTracker.Api.Controllers
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
             {
+                if (!await _userManager.IsEmailConfirmedAsync(user))
+                {
+                    return Unauthorized("Email not confirmed");
+                }
+
                 var token = GenerateJwtToken(user);
                 return Ok(new { token });
             }

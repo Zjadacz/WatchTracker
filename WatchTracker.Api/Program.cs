@@ -20,9 +20,12 @@ builder.Services.AddTransient<IAppDbContext, AppDbContext>();
 builder.Services.AddTransient<IWatchedService, WatchedService>();
 
 // Identity
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-    .AddEntityFrameworkStores<AppDbContext>()
-    .AddDefaultTokenProviders();
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+{
+    options.SignIn.RequireConfirmedEmail = true;
+})
+.AddEntityFrameworkStores<AppDbContext>()
+.AddDefaultTokenProviders();
 
 var allowedOrigins = builder.Configuration
     .GetSection("Cors:AllowedOrigins")

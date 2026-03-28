@@ -8,6 +8,14 @@ Content-Type: application/json
     "password": "Example_password_1"
 }
 
+### Resends confirmation email
+Get {{WatchTracker.Api_HostAddress}}/api/auth/resend?email=example@gmail.com
+
+### Confirm email link
+@Confirmation.User_Id = fa125353-d1b6-4627-84e8-9b575d74e4cb
+@Confirmation.Token = CfDJ8EKo%2Blfn5YdLquUmSBtxCbe%2FUIkrt6%2B%2BWWVjCR1Ibg0cCxfbj6w7zVLIc8NyOq3LFwSYVCM9KyloJoPpOb%2FGVEehepBx%2BNAjwfZO5qITugC7n4MDdHUQYPHuDLygitYl1RaovrwyaylDD11DAfwPXRJKnXoClx1TXsmvHhQX9Cdb0fDHZN3ryJ0B5ACO1pv1M9WxPSEgIyXXyaJpCPS57xa%2BLwKq6g%2FyNl4oT%2FsZx%2Bfx6ePHdx6iut1q8Xw5RsnLPA%3D%3D
+GET {{WatchTracker.Api_HostAddress}}/api/Auth/confirm-email?userId={{Confirmation.User_Id}}&token={{Confirmation.Token}}
+
 ### Login user
 POST {{WatchTracker.Api_HostAddress}}/api/auth/login/
 Content-Type: application/json
