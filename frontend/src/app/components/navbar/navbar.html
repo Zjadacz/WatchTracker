@@ -1,5 +1,11 @@
 <nav>
-    <a routerLink="/home">Home</a> 
-    |
-    <a routerLink="/user">User</a>
+    @if (authService.isLoggedIn()) {
+        <a routerLink="/user">Profile</a>
+        |
+        <a href="#"(click)="logout()">Logout</a>
+    } 
+    
+    @if (showLogin()) {
+        <a routerLink="/login">Login</a>
+    }
 </nav>
