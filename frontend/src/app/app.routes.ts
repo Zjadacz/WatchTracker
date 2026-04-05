@@ -9,7 +9,7 @@ export const routes: Routes = [
     { 
         path: 'home', 
         title: 'Home Page',
-        canActivate: [authGuard],
+        // canActivate: [authGuard],
         loadComponent: () => import('./pages/home/home.component').then(m => m.HomeComponent) 
     },
     { 
@@ -17,4 +17,14 @@ export const routes: Routes = [
         title: 'Login Page',
         loadComponent: () => import('./features/auth/login/login.component').then(m => m.LoginComponent) 
     },
+    {
+        path: 'register',
+        title: 'Register Page',
+        loadComponent: () => import('./features/auth/register/register.component').then(m => m.RegisterComponent)
+    },
+    {
+        path: 'confirm',
+        title: 'Confirm Email Page',
+        loadComponent: () => import('./features/auth/confirm/confirm.component').then(m => m.ConfirmComponent)
+    }
 ];

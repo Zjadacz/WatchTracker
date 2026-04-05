@@ -1,13 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '@env/environment';
+import { Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router
+  ) {}
 
   login(email: string, password: string) {
     return this.http
@@ -20,6 +24,14 @@ export class AuthService {
           localStorage.setItem('token', response.token);
         }),
       );
+  }
+
+  register(email: string, password: string) {
+    return this.http
+      .post<any>(`${environment.apiUrl}/auth/register`, {
+        email,
+        password,
+      });
   }
 
   logout() {

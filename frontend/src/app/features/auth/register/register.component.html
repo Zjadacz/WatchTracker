@@ -1,0 +1,38 @@
+<form [formGroup]="registerForm" (ngSubmit)="register()">
+  <label for="email">Email:</label>
+  <input 
+    formControlName="email" 
+    name="email" 
+    placeholder="Email" 
+    required
+  >
+
+  <input 
+    formControlName="password" 
+    name="password" 
+    type="password" 
+    placeholder="Password" 
+    required
+  >
+
+  <input 
+    formControlName="confirmPassword" 
+    name="confirmPassword" 
+    type="password" 
+    placeholder="Confirm Password" 
+    required
+  >
+
+  <button type="submit">Register</button>
+
+  @if (
+    registerForm.errors?.['passwordMismatch'] &&
+    registerForm.get('confirmPassword')?.touched
+  ) {
+    <p>Passwords do not match</p>
+  }
+
+  @if (error) {
+    <p>{{ error }}</p>
+  }
+</form>
