@@ -18,6 +18,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddTransient<IAppDbContext, AppDbContext>();
 builder.Services.AddTransient<IWatchedService, WatchedService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 // Identity
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>

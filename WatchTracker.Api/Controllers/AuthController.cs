@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using WatchTracker.Api.Services;
 
 namespace WatchTracker.Api.Controllers
 {
@@ -13,14 +14,14 @@ namespace WatchTracker.Api.Controllers
     public class AuthController : ControllerBase
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly IWebHostEnvironment _env;
         private readonly IConfiguration _config;
+        private readonly IEmailService _emailService;
 
-        public AuthController(UserManager<IdentityUser> userManager, IWebHostEnvironment env, IConfiguration config)
+        public AuthController(UserManager<IdentityUser> userManager, IConfiguration config, IEmailService emailService)
         {
             _userManager = userManager;
-            _env = env;
             _config = config;
+            _emailService = emailService;
         }
 
         [HttpPost("register")]
@@ -40,7 +41,7 @@ namespace WatchTracker.Api.Controllers
                 new { userId = user.Id, token = token },
                 Request.Scheme);
 
-            return SendConfirmationEmail(confirmationLink);
+            return await SendConfirmationEmail(model.Email, confirmationLink);
         }
 
         /// <summary>
@@ -58,20 +59,18 @@ namespace WatchTracker.Api.Controllers
                 new { userId = user.Id, token = token },
                 Request.Scheme);
 
-            return SendConfirmationEmail(confirmationLink);
+            return await SendConfirmationEmail(email, confirmationLink);
         }
 
-        private IActionResult SendConfirmationEmail(string? confirmationLink)
+        private async Task<IActionResult> SendConfirmationEmail(string email, string? confirmationLink)
         {
-            if (_env.IsDevelopment())
-            {
-                return Ok(new { message = "Confirmation link", confirmationLink });
-            }
-            else
-            {
-                // TODO: send actual email using SMTP
-                return Ok();
-            }
+            await _emailService.SendEmailAsync(
+                    email,
+                    "Potwierdź konto",
+                    $"Kliknij link: <a href='{confirmationLink}'>Potwierdź email</a>"
+                );
+
+            return Ok();
         }
 
         [HttpGet("confirm-email")]
