@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -34,14 +35,7 @@ namespace WatchTracker.Api.Controllers
                 return BadRequest(result.Errors);
 
             // Email confirmation token
-            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            var confirmationLink = Url.Action(
-                nameof(ConfirmEmail),
-                "Auth",
-                new { userId = user.Id, token = token },
-                Request.Scheme);
-
-            return await SendConfirmationEmail(model.Email, confirmationLink);
+            return await ResendEmail(model.Email);
         }
 
         /// <summary>
@@ -50,24 +44,15 @@ namespace WatchTracker.Api.Controllers
         [HttpGet("resend")]
         public async Task<IActionResult> ResendEmail(string email)
         {
-            // Email confirmation token
             var user = await _userManager.FindByEmailAsync(email);
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            var confirmationLink = Url.Action(
-                nameof(ConfirmEmail),
-                "Auth",
-                new { userId = user.Id, token = token },
-                Request.Scheme);
+            var encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
+            var confirmationLink = $"{_config["Frontend:Url"]}{_config["Frontend:EmailConfirmationRoute"]}?userId={user.Id}&token={encodedToken}";
 
-            return await SendConfirmationEmail(email, confirmationLink);
-        }
-
-        private async Task<IActionResult> SendConfirmationEmail(string email, string? confirmationLink)
-        {
             await _emailService.SendEmailAsync(
                     email,
-                    "Potwierdź konto",
-                    $"Kliknij link: <a href='{confirmationLink}'>Potwierdź email</a>"
+                    "Confirm your account",
+                    $"Click link: <a href='{confirmationLink}'>confirm account</a> to confirm your account in watch-tracker.com."
                 );
 
             return Ok();
@@ -78,14 +63,22 @@ namespace WatchTracker.Api.Controllers
         {
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
-                return BadRequest("Invalid user");
+                return BadRequest("Error: Invalid user.");
 
-            var result = await _userManager.ConfirmEmailAsync(user, token);
+            try
+            {
+                var decodedToken = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(token));
+                var result = await _userManager.ConfirmEmailAsync(user, decodedToken);
 
-            if (!result.Succeeded)
-                return BadRequest("Invalid token");
+                if (!result.Succeeded)
+                    return BadRequest("Error: Invalid token");
 
-            return Ok("Email confirmed");
+                return Ok("Email confirmed");
+            }
+            catch
+            {
+                return BadRequest("Error: Invalid token.");
+            }
         }
 
         [HttpPost("login")]

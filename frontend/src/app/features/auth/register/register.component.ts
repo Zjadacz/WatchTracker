@@ -33,7 +33,7 @@ export class RegisterComponent {
 
     const { email, password } = this.registerForm.getRawValue();
     this.auth.register(email, password).subscribe({
-      next: () => this.router.navigate(['/confirm']),
+      next: () => this.router.navigate(['/email-sent']),
       error: (err) => {
         this.error = err.error[0].description || 'Something went wrong'
       }

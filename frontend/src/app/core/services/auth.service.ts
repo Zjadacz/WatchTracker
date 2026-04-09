@@ -34,6 +34,13 @@ export class AuthService {
       });
   }
 
+  confirmEmail(userId: string, token: string) {
+    return this.http.get(`${environment.apiUrl}/auth/confirm-email`, {
+      params: { userId, token},
+      responseType: 'text'      
+    });
+  }
+
   logout() {
     localStorage.removeItem('token');
   }

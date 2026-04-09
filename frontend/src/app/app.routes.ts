@@ -23,6 +23,11 @@ export const routes: Routes = [
         loadComponent: () => import('./features/auth/register/register.component').then(m => m.RegisterComponent)
     },
     {
+        path: 'email-sent',
+        title: 'Email Sent Page',
+        loadComponent: () => import('./features/auth/email-sent/email-sent.component').then(m => m.EmailSentComponent)
+    },
+    {
         path: 'confirm',
         title: 'Confirm Email Page',
         loadComponent: () => import('./features/auth/confirm/confirm.component').then(m => m.ConfirmComponent)

@@ -4,7 +4,7 @@
 POST {{WatchTracker.Api_HostAddress}}/api/auth/register/
 Content-Type: application/json
 {
-    "email": "jerzy.waldorff@gmail.com",
+    "email": "example.waldorff@gmail.com",
     "password": "Example_password_1"
 }
 
