@@ -4,12 +4,12 @@
 POST {{WatchTracker.Api_HostAddress}}/api/auth/register/
 Content-Type: application/json
 {
-    "email": "example.waldorff@gmail.com",
+    "email": "example@gmail.com",
     "password": "Example_password_1"
 }
 
 ### Resends confirmation email
-Get {{WatchTracker.Api_HostAddress}}/api/auth/resend?email=jerzy.waldorff@gmail.com
+Get {{WatchTracker.Api_HostAddress}}/api/auth/resend?email=example@gmail.com
 
 ### Confirm email link
 @Confirmation.User_Id = 
