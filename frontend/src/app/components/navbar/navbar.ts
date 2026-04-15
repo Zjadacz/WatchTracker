@@ -19,6 +19,6 @@ export class Navbar {
   }
 
   showLogin(): boolean {
-    return !this.authService.isLoggedIn() && this.router.url !== '/login';
+    return !this.authService.isLoggedIn() && this.router.url !== '/user/login';
   }
 }

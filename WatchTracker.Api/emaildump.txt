@@ -1,0 +1,8 @@
+2026-04-15 19:45:21
+To: example2@gmail.com
+Subject: Confirm your account
+Click link: <a href='http://localhost:4200/user/confirm?userId=78fbce7d-8d7c-40bc-9a90-57ee625610db&token=Q2ZESjhFS28rbGZuNVlkTHF1VW1TQnR4Q2Jlc0QrS3NWaUNDakNpMDJKOWNmaFkyOXIxNXJvKzNuWVMwNHdwNHg5aXlJM0NqZS94aGEwOTFKU0ZoQXZvVjdtOVJxZW00a2FLajJMUjRYU1NINmtzd2ZGSW5FZG9RUnZmSWZSU1JLSlp4eUpGdXhFZUN5YThFcWtVSVlsdGpzSzNnY3RuUjgzd3RiVThKQjZwR2w0WXhUdyt2VzBwWVhBV01mdXhQZ2VVaUczdWUyRC9SZGlBYjZFRzJFWUtzVGs3SU84NmhEaXN3YjZzU3R0ckI0SHBsL3Y2bkFoTXVWNDRCdko2cDV5M0NWZz09'>confirm account</a> to confirm your account in watch-tracker.com.
+2026-04-15 19:47:35
+To: example3@gmail.com
+Subject: Confirm your account
+Click link: <a href='http://localhost:4200/user/confirm?userId=8f73896d-1a47-4d82-afdc-0045967cb627&token=Q2ZESjhFS28rbGZuNVlkTHF1VW1TQnR4Q2JmWmlIZG01QTNYUGxpdTNaMzBQampTOUtFUzJSOWhSRVA5ejRaVFgzVlQ4SmJxYnBpbEhwNlJoaHRQVTNkY3hpY3I1dWJLRmFMWDlrdlkxSXhTMHpxTkJGc2tLZ3RNQmFjemNkWGRkbTVoR0dOakRPUTJmeDFEY0xRVGtsa2ZJMjcxZ2c4M1pIUTNtenBhSkxib1RZaldxbnpKNVZocVB6ckJjT1lvSVdGQzNYSmkyVU9aTW5ZZlhCdGdtam54WlBNWG9PaGZzTlVnbE1YdnJLMEw5SnhUMTdlWjhaSFdPdlkxZ2ZwaHZEOUNGQT09'>confirm account</a> to confirm your account in watch-tracker.com.

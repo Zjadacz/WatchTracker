@@ -1,13 +1,13 @@
 <nav>
     @if (authService.isLoggedIn()) {
-        <a routerLink="/user">Profile</a>
+        <a routerLink="/user/profile">Profile</a>
         |
         <a href="#"(click)="logout()">Logout</a>
     } 
     
     @if (showLogin()) {
-        <a routerLink="/register">Register</a>
+        <a routerLink="/user/register">Register</a>
         |
-        <a routerLink="/login">Login</a>
+        <a routerLink="/user/login">Login</a>
     }
 </nav>

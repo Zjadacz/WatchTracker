@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '@env/environment';
-import { Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
 
 @Injectable({
@@ -9,8 +8,7 @@ import { tap } from 'rxjs/operators';
 })
 export class AuthService {
   constructor(
-    private http: HttpClient,
-    private router: Router
+    private http: HttpClient
   ) {}
 
   login(email: string, password: string) {
