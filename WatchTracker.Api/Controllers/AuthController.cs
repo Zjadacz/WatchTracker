@@ -35,14 +35,14 @@ namespace WatchTracker.Api.Controllers
                 return BadRequest(result.Errors);
 
             // Email confirmation token
-            return await ResendEmail(model.Email);
+            return await SendConfirmationEmail(model.Email);
         }
 
         /// <summary>
         /// Resend email without adding user to database 
         /// </summary>
         [HttpGet("resend")]
-        public async Task<IActionResult> ResendEmail(string email)
+        public async Task<IActionResult> SendConfirmationEmail(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -80,6 +80,30 @@ namespace WatchTracker.Api.Controllers
                 return BadRequest("Error: Invalid token.");
             }
         }
+
+        [HttpPost("reset")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordModel model)
+        {
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                // We will not inform that user doesn't exist.
+                return Ok();
+            }
+
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
+            var passwordResetLink = $"{_config["Frontend:Url"]}{_config["Frontend:ResetPasswordRoute"]}?userId={user.Id}&token={encodedToken}";
+
+            await _emailService.SendEmailAsync(
+                model.Email,
+                "Reset Password",
+                $"Click link: <a href='{passwordResetLink}'>reset</a> to reset your password in watch-tracker.com."
+            );
+
+            return Ok();
+        }
+
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
@@ -127,4 +151,5 @@ namespace WatchTracker.Api.Controllers
 
     public record RegisterModel(string Email, string Password);
     public record LoginModel(string Email, string Password);
+    public record ResetPasswordModel(string Email);
 }

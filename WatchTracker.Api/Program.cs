@@ -18,7 +18,16 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddTransient<IAppDbContext, AppDbContext>();
 builder.Services.AddTransient<IWatchedService, WatchedService>();
-builder.Services.AddScoped<IEmailService, EmailService>();
+
+// In this section we will have different services for development and production environments.
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddScoped<IEmailService, FileEmailService>();
+}
+else
+{
+    builder.Services.AddScoped<IEmailService, EmailService>();
+}
 
 // Identity
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
