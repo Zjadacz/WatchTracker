@@ -39,6 +39,21 @@ export class AuthService {
     });
   }
 
+  resetPassword(email: string) {
+    return this.http
+      .post<any>(`${environment.apiUrl}/auth/reset-password`, {
+        email
+      });
+  }
+
+  newPassword(userId: string, password: string, token: string) {
+    return this.http
+      .post(`${environment.apiUrl}/auth/new-password`, 
+        { userId, password, token },
+        { responseType: 'text' }
+      );
+  }
+
   logout() {
     localStorage.removeItem('token');
   }

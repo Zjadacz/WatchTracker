@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json.Linq;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -81,7 +82,7 @@ namespace WatchTracker.Api.Controllers
             }
         }
 
-        [HttpPost("reset")]
+        [HttpPost("reset-password")]
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordModel model)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
@@ -104,6 +105,24 @@ namespace WatchTracker.Api.Controllers
             return Ok();
         }
 
+        [HttpPost("new-password")]
+        public async Task<IActionResult> NewPassword([FromBody] NewPasswordModel model)
+        {
+            var user = await _userManager.FindByIdAsync(model.UserId);
+            if (user == null)
+            {
+                return BadRequest("Invlid request.");
+            }
+
+            var decodedToken = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(model.Token));
+            var result = await _userManager.ResetPasswordAsync(user, decodedToken, model.Password);
+            if(!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
+
+            return Ok("Password has been reset successfully.");
+        }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
@@ -152,4 +171,5 @@ namespace WatchTracker.Api.Controllers
     public record RegisterModel(string Email, string Password);
     public record LoginModel(string Email, string Password);
     public record ResetPasswordModel(string Email);
+    public record NewPasswordModel(string UserId, string Token, string Password);
 }

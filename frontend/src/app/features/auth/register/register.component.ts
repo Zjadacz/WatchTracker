@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { AuthService } from '@app/core/services/auth.service';
 import { Router } from '@angular/router';
-import { AbstractControl, FormGroup, FormBuilder, ReactiveFormsModule, Validators, ValidatorFn, ValidationErrors } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { inject } from '@angular/core';
+import { passwordMatchValidator } from '@app/core/validators/passwordMatchValidator';
 
 @Component({
   selector: 'app-login',
@@ -40,11 +41,3 @@ export class RegisterComponent {
     });
   }
 }
-
-export const passwordMatchValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-  const form = control as FormGroup; 
-  const password = form.get('password')?.value;
-  const confirmPassword = form.get('confirmPassword')?.value;
-
-  return password === confirmPassword ? null : { passwordMismatch: true };
-};
