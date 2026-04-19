@@ -419,3 +419,4 @@ FodyWeavers.xsd
 /WatchTracker.Api/watchtracker.db
 /WatchTracker.Api/watchtracker.db-shm
 /WatchTracker.Api/watchtracker.db-wal
+/WatchTracker.Api/emaildump.txt
