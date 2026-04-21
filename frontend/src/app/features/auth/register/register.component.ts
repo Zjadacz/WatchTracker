@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { AuthService } from '@app/core/services/auth.service';
 import { Router } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { inject } from '@angular/core';
 import { passwordMatchValidator } from '@app/core/validators/passwordMatchValidator';
+import { UserError } from '@app/core/models/user-error.model';
 
 @Component({
   selector: 'app-login',
@@ -24,10 +25,11 @@ export class RegisterComponent {
     }
   );
 
-  error = '';
+  errors: UserError[] = [];
 
   constructor(
     private auth: AuthService, 
+    private cdRef: ChangeDetectorRef,
     private router: Router) {}
 
   register() {
@@ -36,7 +38,8 @@ export class RegisterComponent {
     this.auth.register(email, password).subscribe({
       next: () => this.router.navigate(['/user/email-sent']),
       error: (err) => {
-        this.error = err.error[0].description || 'Something went wrong'
+        this.errors = err.error as UserError[];
+        this.cdRef.detectChanges();
       }
     });
   }
