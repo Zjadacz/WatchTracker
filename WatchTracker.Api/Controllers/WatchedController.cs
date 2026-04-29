@@ -18,34 +18,30 @@ namespace WatchTracker.Api.Controllers
         }
 
         [HttpPost("add")]
-        public async Task<IActionResult> Add([FromBody] NewWatchedMovie movie)
+        public async Task<IActionResult> Add([FromBody] NewWatchedMovieRequest request)
         {
             // get user id
-            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-
             var addedMovie = await this.watchedService.AddWatchedMovieAsync(new WatchedMovie
             {
                 Id = Guid.NewGuid().ToString(),
-                UserId = userId,
-                Title = movie.Title,
-                Description = movie.Description,
-                DateWatched = movie.DateWatched,
-                Rating = movie.Rating
+                UserId = request.UserId,
+                Title = request.Title,
+                Description = request.Description,
+                DateWatched = request.DateWatched,
+                Rating = request.Rating
             });
 
             return Ok(addedMovie); 
         }
 
         [HttpGet("all")]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get(string userId)
         {
             // get user id
-            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-
             var movies = await this.watchedService.GetWatchedMoviesAsync(userId);
             return Ok(movies);
         }
 
-        public record NewWatchedMovie(string Title, string Description, DateOnly DateWatched, float Rating);
+        public record NewWatchedMovieRequest(string Title, string Description, DateOnly DateWatched, float Rating, string UserId);
     }
 }
