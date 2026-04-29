@@ -1,13 +1,25 @@
-<nav>
-    @if (authService.isLoggedIn()) {
-        <a routerLink="/user/profile">Profile</a>
-        |
-        <a href="#"(click)="logout()">Logout</a>
-    } 
-    
+<nav class="navbar">
+  <div class="navbar__logo">WatchTracker</div>
+
+  <ul class="navbar__menu" [class.active]="isOpen">
+    <li>Home</li>
+    <li>About</li>
+    <li>Contact</li>
+    <li class="mobile-only">Register</li>
+    <li class="mobile-only">Login</li>
+  </ul>
+
+  <div class="navbar__actions">
     @if (showLogin()) {
-        <a routerLink="/user/register">Register</a>
-        |
-        <a routerLink="/user/login">Login</a>
+        <a routerLink="/user/login" class="desktop-only">Login</a>
+    }   
+
+    @if(showRegister()) {
+        <a routerLink="/user/register" class="desktop-only"><button>Register</button></a>
     }
+    
+    <div class="hamburger" (click)="toggleMenu()">
+      {{ isOpen ? '✖' : '☰' }}
+    </div>
+  </div>
 </nav>

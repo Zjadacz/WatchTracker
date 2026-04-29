@@ -1,29 +1,39 @@
+<h2>Create Account</h2>
 <form [formGroup]="registerForm" (ngSubmit)="register()">
-  <label for="email">Email:</label>
-  <input 
-    formControlName="email" 
-    name="email" 
-    placeholder="Email" 
-    required
-  >
+  <div class="form__group">
+    <label for="email">Email:</label>
+    <input 
+      formControlName="email" 
+      name="email" 
+      required
+    >
+  </div>
 
-  <input 
-    formControlName="password" 
-    name="password" 
-    type="password" 
-    placeholder="Password" 
-    required
-  >
+  <div class="form__group">
+    <label for="password">Password:</label>
+    <input 
+      formControlName="password" 
+      name="password" 
+      type="password" 
+      required
+    >
+  </div>
 
-  <input 
-    formControlName="confirmPassword" 
-    name="confirmPassword" 
-    type="password" 
-    placeholder="Confirm Password" 
-    required
-  >
+  <div class="form__group">
+    <label for="confirmPassword">Confirm Password:</label>
+    <input 
+      formControlName="confirmPassword" 
+      name="confirmPassword" 
+      type="password" 
+      required
+    >
+  </div>
 
-  <button type="submit">Register</button>
+  <button 
+    type="submit"
+  >
+    Register
+  </button>
 
   @if (
     registerForm.errors?.['passwordMismatch'] &&

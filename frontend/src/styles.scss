@@ -1,1 +1,48 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+  font-family: "Elms Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 100;
+  font-style: normal;
+  background: #fafafa;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+input, textarea {
+  border: 0px solid transparent;
+  padding: 8px;
+}
+
+a,
+a:hover,
+a:focus,
+a:active {
+  text-decoration: none;
+}
+
+a:visited {
+    color: black;
+}
+
+form > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.form__group {
+  margin-bottom: 16px;
+}
+
+button {
+  padding: 8px 16px;
+  border: none;
+  background: #459fdb;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
