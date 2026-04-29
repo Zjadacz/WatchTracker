@@ -21,11 +21,11 @@ namespace WatchTracker.Api.Controllers
         public async Task<IActionResult> Add([FromBody] NewWatchedMovie movie)
         {
             // get user id
-            var userId = Guid.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value);
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
 
             var addedMovie = await this.watchedService.AddWatchedMovieAsync(new WatchedMovie
             {
-                Id = Guid.NewGuid(),
+                Id = Guid.NewGuid().ToString(),
                 UserId = userId,
                 Title = movie.Title,
                 Description = movie.Description,
@@ -40,7 +40,7 @@ namespace WatchTracker.Api.Controllers
         public async Task<IActionResult> Get()
         {
             // get user id
-            var userId = Guid.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value);
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
 
             var movies = await this.watchedService.GetWatchedMoviesAsync(userId);
             return Ok(movies);

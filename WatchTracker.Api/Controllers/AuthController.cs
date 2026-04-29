@@ -18,12 +18,14 @@ namespace WatchTracker.Api.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IConfiguration _config;
         private readonly IEmailService _emailService;
+        private readonly IUserService _userService;
 
-        public AuthController(UserManager<IdentityUser> userManager, IConfiguration config, IEmailService emailService)
+        public AuthController(UserManager<IdentityUser> userManager, IConfiguration config, IEmailService emailService, IUserService userService)
         {
             _userManager = userManager;
             _config = config;
             _emailService = emailService;
+            _userService = userService;
         }
 
         [HttpPost("register")]
@@ -74,6 +76,7 @@ namespace WatchTracker.Api.Controllers
                 if (!result.Succeeded)
                     return BadRequest("Error: Invalid token");
 
+                await _userService.AddNewAppUserAsync(user.Id);
                 return Ok("Email confirmed");
             }
             catch

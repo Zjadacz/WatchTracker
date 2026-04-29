@@ -18,6 +18,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddTransient<IAppDbContext, AppDbContext>();
 builder.Services.AddTransient<IWatchedService, WatchedService>();
+builder.Services.AddTransient<IUserService, UserService>();
 
 // In this section we will have different services for development and production environments.
 if (builder.Environment.IsDevelopment())

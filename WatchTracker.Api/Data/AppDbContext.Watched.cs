@@ -9,6 +9,6 @@ namespace WatchTracker.Api.Data
 
         public Task<WatchedMovie> AddMovieAsync(WatchedMovie watchedMovie) => this.InsertAsync(watchedMovie);
 
-        public IQueryable<WatchedMovie> GetMovies(Guid userId) => this.WatchedMovies.Where(b => b.UserId == userId);
+        public IQueryable<WatchedMovie> GetMovies(string userId) => this.WatchedMovies.Where(b => b.UserId == userId);
     }
 }

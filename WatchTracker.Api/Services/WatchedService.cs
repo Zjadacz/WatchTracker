@@ -15,6 +15,6 @@ namespace WatchTracker.Api.Services
 
         public Task<WatchedMovie> AddWatchedMovieAsync(WatchedMovie watchedMovie) => this.appDbContext.AddMovieAsync(watchedMovie);
 
-        public Task<List<WatchedMovie>> GetWatchedMoviesAsync(Guid userId) => this.appDbContext.GetMovies(userId).ToListAsync();
+        public Task<List<WatchedMovie>> GetWatchedMoviesAsync(string userId) => this.appDbContext.GetMovies(userId).ToListAsync();
     }
 }
